@@ -8,19 +8,37 @@ namespace Bingo_PanczelCsenge
 {
     internal class BingoJatekos
     {
-        private string nev;
-        private int[,] kartya;
-        private bool[,] jeolt;
+        public string Nev { get; set; }
+        public int[,] Kartya { get; set; } 
+        public bool[,] Jelolve { get; set; }
 
-        public BingoJatekos(string nev, int[,] kartya, bool[,] jeolt)
+        public BingoJatekos(string nev, string fajlNev)
         {
-            this.nev = nev;
-            this.kartya = kartya;
-            this.jeolt = jeolt;
+            Nev = nev;
+
+            Kartya = new int[5, 5];
+            Jelolve = new bool[5, 5];
+
+            string[] sorok = File.ReadAllLines(fajlNev);
+
+            for (int i = 0; i < 5; i++)
+            {
+                string[] adatok = sorok[i].Split(';');
+                for (int j = 0; j < 5; j++)
+                {
+                    if (adatok[j] == "X")
+                    {
+                        Kartya[i, j] = -111;
+                        Jelolve[i, j] = true;
+                    }
+                    else
+                    {
+                        Kartya[i, j] = int.Parse(adatok[j]);
+                    }
+                }
+            }
         }
 
-        public string Nev { get => nev; set => nev = value; }
-        public int[,] Kartya { get => kartya; set => kartya = value; }
-        public bool[,] Jeolt { get => jeolt; set => jeolt = value; }
+       
     }
 }
